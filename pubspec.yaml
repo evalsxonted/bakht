@@ -1,0 +1,49 @@
+name: bakht
+description: lucky games app
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.0.1
+  hive: ^2.0.4
+  cloud_firestore: ^2.5.3
+  firebase_core: ^1.7.0
+  connectivity: ^3.0.6
+  path_provider: ^2.0.5
+  firebase_auth: ^3.1.4
+
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_native_splash:
+
+flutter:
+
+  uses-material-design: true
+
+
+  assets:
+    - assets/icons/logo/
+
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo/Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo/Cairo-ExtraLight.ttf
+          weight: 300
+        - asset: assets/fonts/Cairo/Cairo-Light.ttf
+          weight: 400
+        - asset: assets/fonts/Cairo/Cairo-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Cairo/Cairo-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Cairo/Cairo-Black.ttf
+          weight: 900
