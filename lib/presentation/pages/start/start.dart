@@ -1,9 +1,11 @@
 import 'dart:io';
-
+import 'package:bakht/core/usecase/usecases_caller.dart';
 import 'package:bakht/presentation/pages/home/home.dart';
 import 'package:bakht/presentation/pages/splash/splash.dart';
 import 'package:bakht/presentation/pages/start/user_notifier.dart';
+import 'package:bakht/presentation/theme/theme_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +16,6 @@ import 'theme_notifier.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Start extends StatelessWidget {
-  // FirebaseFirestore firestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -25,7 +26,9 @@ class Start extends StatelessWidget {
         if (snapshot.hasData &&
             values?[0] != null &&
             values?[1] != null &&
-            values?[2] != null) {
+            values?[2] != null &&
+            values?[3] != null &&
+            values?[4] != null) {
           return MultiProvider(
               providers: [
                 ChangeNotifierProvider<LanguageNotifier>(
@@ -36,6 +39,12 @@ class Start extends StatelessWidget {
                     create: (context) => values?[2]),
                 Provider<FirebaseFirestore>(
                   create: (context) => values?[3],
+                ),
+                Provider<FirebaseAuth>(
+                  create: (context) => values?[4],
+                ),
+                Provider<UseCaseCaller>(
+                  create: (context) => values?[5],
                 )
               ],
               child: Consumer2<LanguageNotifier, ThemeNotifier>(
@@ -43,7 +52,9 @@ class Start extends StatelessWidget {
                   return Directionality(
                     textDirection: TextDirection.ltr, //todo
                     child: MaterialApp(
-                      theme: themeNotifier.themeData,
+                      themeMode: themeNotifier.themeMode,
+                      darkTheme: ThemeHandler().darkTheme,
+                      theme: ThemeHandler().darkTheme,
                       home: Home(),
                     ),
                   );
@@ -66,11 +77,15 @@ class Start extends StatelessWidget {
     Hive.init(appDocDir.path);
     await Firebase.initializeApp();
     FirebaseFirestore firestore = FirebaseFirestore.instance;
+    FirebaseAuth auth = FirebaseAuth.instance;
+    UseCaseCaller useCaseCaller = UseCaseCaller(firestore, auth);
     return await Future.wait([
-      LanguageNotifier().initLanguage(),
-      ThemeNotifier().initTheme(),
-      UserNotifier().initUser(firestore),
+      LanguageNotifier(useCaseCaller: useCaseCaller).initLanguage(),
+      ThemeNotifier(useCaseCaller: useCaseCaller).initTheme(),
+      UserNotifier().initUser(auth, useCaseCaller),
       Future.value(firestore),
+      Future.value(auth),
+      Future.value(useCaseCaller),
       //
       Future.delayed(Duration(seconds: 5)),
     ]);

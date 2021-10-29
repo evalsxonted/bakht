@@ -1,8 +1,0 @@
-class LanguageHandler{
-  getSavedLanguage(){
-
-  }
-  saveLanguage(){
-
-  }
-}

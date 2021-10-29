@@ -14,6 +14,7 @@ class UserModel extends User {
     required String signUpISODate,
     required int lastLoginEpoch,
     required bool verified,
+    String? authUserId,
   }) : super(
           id: id,
           guest: guest,
@@ -24,6 +25,7 @@ class UserModel extends User {
           phone: phone,
           province: province,
           name: name,
+      authUserId: authUserId
         );
 
   factory UserModel.fromFirestoreDoc(DocumentSnapshot documentSnapshot) {
@@ -38,6 +40,7 @@ class UserModel extends User {
       province: data["province"],
       phone: data["phone"],
       location: data["location"],
+      authUserId: data["authUserId"]
     );
   }
 
@@ -53,6 +56,7 @@ class UserModel extends User {
         province: data["province"],
         phone: data["phone"],
         location: data["location"],
+        authUserId: data["authUserId"]
     );
   }
 
@@ -78,6 +82,8 @@ class UserModel extends User {
       "phone": phone,
       "province": province,
       "name": name,
+      "authUserId": authUserId
+
     });
   }
 
@@ -92,6 +98,7 @@ class UserModel extends User {
       "phone": phone,
       "province": province,
       "name": name,
+      "authUserId": authUserId
     };
   }
 
@@ -107,6 +114,7 @@ class UserModel extends User {
       "phone": phone,
       "province": province,
       "name": name,
+      "authUserId": authUserId
     }.toString();
   }
 }

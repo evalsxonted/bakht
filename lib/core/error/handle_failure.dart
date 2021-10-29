@@ -1,4 +1,6 @@
 import 'package:bakht/core/error/failure.dart';
+import 'package:bakht/presentation/pages/error/error.dart';
+import 'package:flutter/material.dart';
 
 class HandleFailure{
   final Failure failure;
@@ -14,5 +16,7 @@ class HandleFailure{
   saveToLocalLog(){
     //todo
   }
-
+  showErrorPage(){
+    runApp(ErrorPage(messageToShow: failure.messageToShow,));
+  }
 }

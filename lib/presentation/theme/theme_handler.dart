@@ -20,10 +20,4 @@ class ThemeHandler{
     fontFamily: "Cairo",
 
   );
-  getSavedTheme(){
-
-  }
-  saveTheme(){
-
-  }
 }

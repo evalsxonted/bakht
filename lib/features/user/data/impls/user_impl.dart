@@ -8,6 +8,7 @@ import 'package:bakht/features/user/data/models/user_model.dart';
 import 'package:bakht/features/user/domain/abstractions/user_abstraction.dart';
 import 'package:bakht/features/user/domain/entities/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fa;
 
 class UserImpl implements UserAbstraction {
   final NetworkInfo networkInfo;
@@ -19,7 +20,7 @@ class UserImpl implements UserAbstraction {
     required this.userLocalDatasource});
 
   @override
-  Future<Either<User>> getUser() async {
+  Future<Either<User>> getUser(fa.User authUser) async {
     Either<User> userResult = Either(null, null);
     try {
       UserModel localUser = await userLocalDatasource.getUser();
@@ -33,7 +34,7 @@ class UserImpl implements UserAbstraction {
         return userResult;
       }
     } on HiveNotFoundException {
-      userResult = await addNewGuestUser();
+      userResult = await addNewGuestUser(authUser);
       return userResult;
     } on UnknownException catch(e) {
       return Either(Failure(
@@ -46,8 +47,9 @@ class UserImpl implements UserAbstraction {
     }
   }
   @override
-  Future<Either<User>> addNewGuestUser() async {
+  Future<Either<User>> addNewGuestUser(fa.User authUser) async {
     UserModel user = UserModel.defaultGuest();
+    user.authUserId = authUser.uid;
     try {
       if (await networkInfo.isConnected) {
         String remoteUserId = await userRemoteDatasource.addNewUser(user);
