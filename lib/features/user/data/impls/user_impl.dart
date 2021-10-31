@@ -55,6 +55,7 @@ class UserImpl implements UserAbstraction {
         String remoteUserId = await userRemoteDatasource.addNewUser(user);
         user.id = remoteUserId;
         await userLocalDatasource.addNewUser(user);
+
         return Either(null, user);
       } else {
         return Either(Failure("no internet connection", null), null);

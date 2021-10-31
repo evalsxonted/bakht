@@ -4,6 +4,7 @@ import 'package:bakht/presentation/pages/home/home.dart';
 import 'package:bakht/presentation/pages/splash/splash.dart';
 import 'package:bakht/presentation/pages/start/user_notifier.dart';
 import 'package:bakht/presentation/theme/theme_handler.dart';
+import 'package:bakht/presentation/translation/english.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,28 +31,33 @@ class Start extends StatelessWidget {
             values?[3] != null &&
             values?[4] != null) {
           return MultiProvider(
-              providers: [
-                ChangeNotifierProvider<LanguageNotifier>(
-                    create: (context) => values?[0]),
-                ChangeNotifierProvider<ThemeNotifier>(
-                    create: (context) => values?[1]),
-                ChangeNotifierProvider<UserNotifier>(
-                    create: (context) => values?[2]),
-                Provider<FirebaseFirestore>(
-                  create: (context) => values?[3],
-                ),
-                Provider<FirebaseAuth>(
-                  create: (context) => values?[4],
-                ),
-                Provider<UseCaseCaller>(
-                  create: (context) => values?[5],
-                )
-              ],
-              child: Consumer2<LanguageNotifier, ThemeNotifier>(
+            providers: [
+              ChangeNotifierProvider<LanguageNotifier>(
+                  create: (context) => values?[0]),
+              ChangeNotifierProvider<ThemeNotifier>(
+                  create: (context) => values?[1]),
+              ChangeNotifierProvider<UserNotifier>(
+                  create: (context) => values?[2]),
+              Provider<FirebaseFirestore>(
+                create: (context) => values?[3],
+              ),
+              Provider<FirebaseAuth>(
+                create: (context) => values?[4],
+              ),
+              Provider<UseCaseCaller>(
+                create: (context) => values?[5],
+              )
+            ],
+            child: Builder(
+              builder: (context) => Consumer2<LanguageNotifier, ThemeNotifier>(
                 builder: (context, languageNotifier, themeNotifier, child) {
                   return Directionality(
-                    textDirection: TextDirection.ltr, //todo
+                    textDirection:
+                        languageNotifier.language.appName == English().appName
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
                     child: MaterialApp(
+                      debugShowCheckedModeBanner: false,
                       themeMode: themeNotifier.themeMode,
                       darkTheme: ThemeHandler().darkTheme,
                       theme: ThemeHandler().darkTheme,
@@ -59,7 +65,9 @@ class Start extends StatelessWidget {
                     ),
                   );
                 },
-              ));
+              ),
+            ),
+          );
         } else {
           return MaterialApp(
             home: Splash(),
