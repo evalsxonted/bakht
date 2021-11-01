@@ -86,7 +86,7 @@ class Start extends StatelessWidget {
     await Firebase.initializeApp();
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     FirebaseAuth auth = FirebaseAuth.instance;
-    UseCaseCaller useCaseCaller = UseCaseCaller(firestore, auth);
+    UseCaseCaller useCaseCaller = UseCaseCaller(firebaseFirestore: firestore, firebaseAuth: auth);
     return await Future.wait([
       LanguageNotifier(useCaseCaller: useCaseCaller).initLanguage(),
       ThemeNotifier(useCaseCaller: useCaseCaller).initTheme(),

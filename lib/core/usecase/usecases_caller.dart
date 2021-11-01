@@ -11,6 +11,7 @@ import 'package:bakht/features/user/data/impls/user_impl.dart';
 import 'package:bakht/features/user/domain/abstractions/auth_abstraction.dart';
 import 'package:bakht/features/user/domain/abstractions/user_abstraction.dart';
 import 'package:bakht/features/user/domain/usecases/auth_guest.dart';
+import 'package:bakht/features/user/domain/usecases/get_profile_photo.dart';
 import 'package:bakht/features/user/domain/usecases/get_user.dart';
 import 'package:bakht/features/user/domain/usecases/listen_user_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,7 +24,7 @@ class UseCaseCaller{
   final FirebaseFirestore firebaseFirestore;
   final FirebaseAuth firebaseAuth;
 
-  UseCaseCaller(this.firebaseFirestore, this.firebaseAuth);
+  UseCaseCaller({required this.firebaseFirestore,required this.firebaseAuth});
 
   GetUser getUser () {
     return GetUser(userAbstraction: userImpl());
@@ -69,5 +70,9 @@ class UseCaseCaller{
   }
   PrefsLocalDatasource prefsLocalDatasource (){
     return PrefsLocalDatasourceImpl();
+  }
+
+  GetProfilePhoto getProfilePhoto(){
+    return GetProfilePhoto(userAbstraction: userImpl());
   }
 }

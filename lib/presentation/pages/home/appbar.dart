@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bakht/presentation/pages/home/profile_photo.dart';
 import 'package:bakht/presentation/widgets/icons/bouncing_icon.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +38,7 @@ class _HomeAppBarState extends State<HomeAppBar>
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: 0,
+      elevation: 10,
       backgroundColor: Theme.of(context).canvasColor,
       actions: [
         Container(
@@ -51,7 +53,19 @@ class _HomeAppBarState extends State<HomeAppBar>
         ),
       ],
 
-      flexibleSpace: Padding(
+      flexibleSpace: Container(
+
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [
+                Theme.of(context).scaffoldBackgroundColor,
+                Theme.of(context).backgroundColor,
+              ],
+            tileMode: TileMode.repeated,
+            end: Alignment.bottomLeft,
+            begin: Alignment.topRight
+          ),
+        ),
         padding:  EdgeInsets.only(left: 20, right: 20, top: 10),
         child: Align(
           alignment: Alignment.centerLeft,

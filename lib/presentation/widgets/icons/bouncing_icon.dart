@@ -38,6 +38,7 @@ class _BouncingIconState extends State<BouncingIcon>
           scale = controller.value;
         });
       });
+    controller.forward();
   }
 
   @override

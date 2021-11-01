@@ -21,7 +21,7 @@ class PrefsLocalDatasourceImpl implements PrefsLocalDatasource {
       }.toString());
     }
     if (fromHive == null) {
-      throw HiveNotFoundException("prefs not found. key: " + key);
+      throw NotFoundException("prefs not found. key: " + key);
     } else {
       return fromHive;
     }

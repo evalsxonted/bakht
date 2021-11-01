@@ -9,15 +9,6 @@ class ModelingException implements Exception {
   }
 }
 
-class DocumentNotFoundException implements Exception {
-  final String? message;
-
-  DocumentNotFoundException([this.message]);
-  @override
-  String toString() {
-    return message?? "";
-  }
-}
 
 class UnknownException implements Exception {
   final String? message;
@@ -29,10 +20,10 @@ class UnknownException implements Exception {
   }
 }
 
-class HiveNotFoundException implements Exception {
+class NotFoundException implements Exception {
   final String? message;
 
-  HiveNotFoundException([this.message]);
+  NotFoundException([this.message]);
   @override
   String toString() {
     return message?? "";
@@ -54,4 +45,6 @@ class HiveNotFoundException implements Exception {
 // error codes counter 13
 // error codes counter 14
 // error codes counter 15
+// error codes counter 16
+// error codes counter 17
 // error codes counter

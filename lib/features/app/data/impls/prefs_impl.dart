@@ -26,7 +26,7 @@ class PrefsImpl implements PrefsAbstraction {
     late String language; // default
     try {
       language = await prefsLocalDatasource.getFromPrefs("language");
-    } on HiveNotFoundException {
+    } on NotFoundException {
       language = Platform.localeName.split('_')[0];
     } catch (e) {
       result.left = Failure(
@@ -45,7 +45,7 @@ class PrefsImpl implements PrefsAbstraction {
 
     try {
       theme = await prefsLocalDatasource.getFromPrefs("theme");
-    } on HiveNotFoundException {
+    } on NotFoundException {
       result.right = ThemeMode.system;
       return result;
     } catch (e) {

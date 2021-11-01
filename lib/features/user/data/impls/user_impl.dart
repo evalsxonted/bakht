@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bakht/core/either/either.dart';
 import 'package:bakht/core/error/exceptions.dart';
 import 'package:bakht/core/error/failure.dart';
@@ -9,15 +11,18 @@ import 'package:bakht/features/user/domain/abstractions/user_abstraction.dart';
 import 'package:bakht/features/user/domain/entities/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fa;
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 class UserImpl implements UserAbstraction {
   final NetworkInfo networkInfo;
   final UserLocalDatasource userLocalDatasource;
   final UserRemoteDatasource userRemoteDatasource;
 
-  UserImpl({required this.networkInfo,
-    required this.userRemoteDatasource,
-    required this.userLocalDatasource});
+  UserImpl(
+      {required this.networkInfo,
+      required this.userRemoteDatasource,
+      required this.userLocalDatasource});
 
   @override
   Future<Either<User>> getUser(fa.User authUser) async {
@@ -26,26 +31,31 @@ class UserImpl implements UserAbstraction {
       UserModel localUser = await userLocalDatasource.getUser();
       localUser.lastLoginEpoch = DateTime.now().millisecondsSinceEpoch;
       userResult.right = localUser;
-      Either<bool> updated= await updateUser(localUser);
-      if(updated.right == true){
+      Either<bool> updated = await updateUser(localUser);
+      if (updated.right == true) {
         return userResult;
-      }else{
+      } else {
         userResult.left = updated.left;
         return userResult;
       }
-    } on HiveNotFoundException {
+    } on NotFoundException {
       userResult = await addNewGuestUser(authUser);
       return userResult;
-    } on UnknownException catch(e) {
-      return Either(Failure(
-          "error getting user, if this error keeps showing please contact the app developer, error code 7",
-          e.message), null);
-    } catch (e){
-      return Either(Failure(
-          "error getting user, if this error keeps showing please contact the app developer, error code 10",
-          e.toString()), null);
+    } on UnknownException catch (e) {
+      return Either(
+          Failure(
+              "error getting user, if this error keeps showing please contact the app developer, error code 7",
+              e.message),
+          null);
+    } catch (e) {
+      return Either(
+          Failure(
+              "error getting user, if this error keeps showing please contact the app developer, error code 10",
+              e.toString()),
+          null);
     }
   }
+
   @override
   Future<Either<User>> addNewGuestUser(fa.User authUser) async {
     UserModel user = UserModel.defaultGuest();
@@ -61,24 +71,31 @@ class UserImpl implements UserAbstraction {
         return Either(Failure("no internet connection", null), null);
       }
     } on ModelingException catch (e) {
-      return Either(Failure(
-          "error getting user, if this error keeps showing please contact the app developer error code 1",
-          e.message), null);
+      return Either(
+          Failure(
+              "error getting user, if this error keeps showing please contact the app developer error code 1",
+              e.message),
+          null);
     } on FirebaseException catch (e) {
-      return Either(Failure(
-          "error getting user, if this error keeps showing please contact the app developer, error code 2",
-          e.toString()), null);
+      return Either(
+          Failure(
+              "error getting user, if this error keeps showing please contact the app developer, error code 2",
+              e.toString()),
+          null);
     } on UnknownException catch (e) {
-      return Either(Failure(
-          "error getting user, if this error keeps showing please contact the app developer, error code 3",
-          e.message), null);
-    } catch (e){
-      return Either(Failure(
-          "error getting user, if this error keeps showing please contact the app developer, error code 8",
-          e.toString()), null);
+      return Either(
+          Failure(
+              "error getting user, if this error keeps showing please contact the app developer, error code 3",
+              e.message),
+          null);
+    } catch (e) {
+      return Either(
+          Failure(
+              "error getting user, if this error keeps showing please contact the app developer, error code 8",
+              e.toString()),
+          null);
     }
   }
-
 
   @override
   Future<Either<bool>> updateUser(User user) async {
@@ -90,21 +107,64 @@ class UserImpl implements UserAbstraction {
         return Either(null, false);
       }
     } on ModelingException catch (e) {
-      return Either(Failure(
-          "error updating user, if this error keeps showing please contact the app developer error code 4",
-          e.message), null);
+      return Either(
+          Failure(
+              "error updating user, if this error keeps showing please contact the app developer error code 4",
+              e.message),
+          null);
     } on FirebaseException catch (e) {
-      return Either(Failure(
-          "error updating user, if this error keeps showing please contact the app developer, error code 5",
-          e.toString()), null);
+      return Either(
+          Failure(
+              "error updating user, if this error keeps showing please contact the app developer, error code 5",
+              e.toString()),
+          null);
     } on UnknownException catch (e) {
-      return Either(Failure(
-          "error updating user, if this error keeps showing please contact the app developer, error code 6",
-          e.message), null);
-    } catch (e){
-      return Either(Failure(
-          "error getting user, if this error keeps showing please contact the app developer, error code 9",
-          e.toString()), null);
+      return Either(
+          Failure(
+              "error updating user, if this error keeps showing please contact the app developer, error code 6",
+              e.message),
+          null);
+    } catch (e) {
+      return Either(
+          Failure(
+              "error getting user, if this error keeps showing please contact the app developer, error code 9",
+              e.toString()),
+          null);
     }
+  }
+
+  @override
+  Future<Either<File>> getProfilePhoto() async {
+    Either<File> either = Either(null, null);
+    try {
+      either.right = await userLocalDatasource.getProfilePhoto();
+    } on NotFoundException {
+      try {
+        File profilePhoto =
+                  File((await getTemporaryDirectory()).path + "/profile/profile.png");
+        await profilePhoto.create(recursive: true);
+        ByteData bytes = await rootBundle.load('assets/icons/profile/profile2.png');
+
+        await profilePhoto.writeAsBytes(
+                  bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes));
+        either.right = profilePhoto;
+      } catch (e) {
+        either.left = Failure(
+            "error in getting profile photo, if this error keeps showing please contact the app developer, error code 16",
+            e.toString() + " -- error code 16 ");
+      }
+    } catch (e) {
+      either.left = Failure(
+          "error in getting profile photo, if this error keeps showing please contact the app developer, error code 17",
+          e.toString() +  " -- error code 17 ");
+    }
+    return either;
+  }
+
+  @override
+  Future<Either<bool>> saveProfilePhoto(File file) {
+    //file must be png
+    // TODO: implement saveProfilePhoto
+    throw UnimplementedError();
   }
 }

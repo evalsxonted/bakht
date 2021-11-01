@@ -33,7 +33,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
                   e.toString());
         }
       } else {
-        throw DocumentNotFoundException(
+        throw NotFoundException(
             "user not found in firestore. user id: " + id);
       }
     } on FirebaseException catch (e) {
