@@ -1,8 +1,8 @@
-import 'dart:ui';
 
-import 'package:bakht/presentation/pages/home/profile_photo.dart';
+import 'package:bakht/presentation/pages/home/widgets/profile_photo.dart';
 import 'package:bakht/presentation/widgets/icons/bouncing_icon.dart';
 import 'package:flutter/material.dart';
+
 
 class HomeAppBar extends StatefulWidget implements PreferredSizeWidget {
   @override
@@ -15,31 +15,23 @@ class HomeAppBar extends StatefulWidget implements PreferredSizeWidget {
   }
 }
 
-class _HomeAppBarState extends State<HomeAppBar>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  bool menuClicked = false;
+class _HomeAppBarState extends State<HomeAppBar> {
 
   @override
   void initState() {
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 2),
-    );
     super.initState();
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: 10,
-      backgroundColor: Theme.of(context).canvasColor,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
       actions: [
         Container(
           alignment: Alignment.topCenter,
@@ -52,21 +44,21 @@ class _HomeAppBarState extends State<HomeAppBar>
           ),
         ),
       ],
-
       flexibleSpace: Container(
-
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [
-                Theme.of(context).scaffoldBackgroundColor,
-                Theme.of(context).backgroundColor,
-              ],
-            tileMode: TileMode.repeated,
-            end: Alignment.bottomLeft,
-            begin: Alignment.topRight
-          ),
+          color: Theme.of(context).backgroundColor,
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).canvasColor,
+              spreadRadius: 5,
+              blurRadius: 10,
+            ),
+          ],
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(50),
+              bottomRight: Radius.circular(50)),
         ),
-        padding:  EdgeInsets.only(left: 20, right: 20, top: 10),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 10),
         child: Align(
           alignment: Alignment.centerLeft,
           child: ProfilePhoto(),

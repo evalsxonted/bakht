@@ -31,7 +31,7 @@ flutter:
 
 
   assets:
-    - assets/icons/logo/logo1.png
+    - assets/icons/logo/
     - assets/icons/profile/
 
   fonts:
