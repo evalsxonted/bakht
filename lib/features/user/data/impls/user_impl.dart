@@ -29,9 +29,10 @@ class UserImpl implements UserAbstraction {
     Either<User> userResult = Either(null, null);
     try {
       UserModel localUser = await userLocalDatasource.getUser();
-      localUser.lastLoginEpoch = DateTime.now().millisecondsSinceEpoch;
-      userResult.right = localUser;
-      Either<bool> updated = await updateUser(localUser);
+      UserModel remoteUser = await userRemoteDatasource.getUser(localUser.id);
+      userResult.right = remoteUser;
+      remoteUser.lastLoginEpoch = DateTime.now().millisecondsSinceEpoch;
+      Either<bool> updated = await updateUser(remoteUser);
       if (updated.right == true) {
         return userResult;
       } else {
@@ -40,6 +41,11 @@ class UserImpl implements UserAbstraction {
       }
     } on NotFoundException {
       userResult = await addNewGuestUser(authUser);
+      return userResult;
+    } on ModelingException catch (e){
+      userResult.left = Failure(
+          "error getting user, if this error keeps showing please contact the app developer, error code 18",
+          e.message);
       return userResult;
     } on UnknownException catch (e) {
       return Either(

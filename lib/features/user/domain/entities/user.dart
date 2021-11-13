@@ -9,6 +9,9 @@ class User {
   int lastLoginEpoch;
   bool verified;
   String? authUserId;
+  double balanceGold;
+  double balanceSilver;
+  double balanceBronze;
 
   User(
       {required this.id,
@@ -20,5 +23,9 @@ class User {
       required this.guest,
       required this.signUpISODate,
       required this.verified,
-      required this.lastLoginEpoch});
+      required this.lastLoginEpoch,
+      required this.balanceGold,
+        required this.balanceSilver,
+        required this.balanceBronze,
+      });
 }

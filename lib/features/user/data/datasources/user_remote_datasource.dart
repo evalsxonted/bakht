@@ -1,10 +1,9 @@
 import 'package:bakht/core/error/exceptions.dart';
 import 'package:bakht/features/user/data/models/user_model.dart';
-import 'package:bakht/features/user/domain/entities/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class UserRemoteDatasource {
-  Future<User> getUser(String id);
+  Future<UserModel> getUser(String id);
 
   //return user document id
   Future<String> addNewUser(UserModel user);
@@ -18,7 +17,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   UserRemoteDatasourceImpl({required this.firebaseFirestore});
 
   @override
-  Future<User> getUser(String id) async {
+  Future<UserModel> getUser(String id) async {
     try {
       DocumentSnapshot documentSnapshot =
           await firebaseFirestore.collection("users").doc(id).get();

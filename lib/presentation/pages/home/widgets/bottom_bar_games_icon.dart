@@ -35,7 +35,7 @@ class _AnimatedGamesIconState extends State<AnimatedGamesIcon>
   void initState() {
     super.initState();
     controller2 = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 1),
       vsync: this,
     );
     animation1 = Tween<double>(

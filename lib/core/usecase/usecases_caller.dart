@@ -23,8 +23,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 class UseCaseCaller{
   final FirebaseFirestore firebaseFirestore;
   final FirebaseAuth firebaseAuth;
-
-  UseCaseCaller({required this.firebaseFirestore,required this.firebaseAuth});
+  static UseCaseCaller? instance ;
+  UseCaseCaller({required this.firebaseFirestore,required this.firebaseAuth}){
+    instance = this;
+  }
 
   GetUser getUser () {
     return GetUser(userAbstraction: userImpl());

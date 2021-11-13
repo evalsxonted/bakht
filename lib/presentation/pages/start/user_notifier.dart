@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 class UserNotifier extends ChangeNotifier {
 
   User? _user;
-  User? get language => _user;
+  User? get user => _user;
   Future<UserNotifier> initUser(fa.FirebaseAuth auth, UseCaseCaller useCaseCaller) async {
     GetUser getUser = useCaseCaller.getUser();
     AuthGuest authGuest = useCaseCaller.authGuest();

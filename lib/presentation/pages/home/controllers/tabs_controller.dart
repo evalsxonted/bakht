@@ -14,6 +14,7 @@ class TabsController extends ChangeNotifier{
     tabIndex = index;
     notifyListeners();
   }
+
   @override
   void dispose() {
     pageController.dispose();

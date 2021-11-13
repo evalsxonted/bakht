@@ -47,4 +47,5 @@ class NotFoundException implements Exception {
 // error codes counter 15
 // error codes counter 16
 // error codes counter 17
+// error codes counter 18
 // error codes counter

@@ -15,32 +15,40 @@ class UserModel extends User {
     required int lastLoginEpoch,
     required bool verified,
     String? authUserId,
+    required double balanceGold,
+    required double balanceSilver,
+    required double balanceBronze,
   }) : super(
-          id: id,
-          guest: guest,
-          lastLoginEpoch: lastLoginEpoch,
-          signUpISODate: signUpISODate,
-          verified: verified,
-          location: location,
-          phone: phone,
-          province: province,
-          name: name,
-      authUserId: authUserId
-        );
+            id: id,
+            guest: guest,
+            lastLoginEpoch: lastLoginEpoch,
+            signUpISODate: signUpISODate,
+            verified: verified,
+            location: location,
+            phone: phone,
+            province: province,
+            name: name,
+            authUserId: authUserId,
+            balanceBronze: balanceBronze,
+            balanceGold: balanceGold,
+            balanceSilver: balanceSilver);
 
   factory UserModel.fromFirestoreDoc(DocumentSnapshot documentSnapshot) {
     Map data = documentSnapshot.data() as Map;
     return UserModel(
-      id: documentSnapshot.id,
-      name: data["name"],
-      guest: data["guest"],
-      signUpISODate: data["signUpISODate"],
-      lastLoginEpoch: data["lastLoginEpoch"],
-      verified: data["verified"],
-      province: data["province"],
-      phone: data["phone"],
-      location: data["location"],
-      authUserId: data["authUserId"]
+        id: documentSnapshot.id,
+        name: data["name"],
+        guest: data["guest"],
+        signUpISODate: data["signUpISODate"],
+        lastLoginEpoch: data["lastLoginEpoch"],
+        verified: data["verified"],
+        province: data["province"],
+        phone: data["phone"],
+        location: data["location"],
+        authUserId: data["authUserId"],
+        balanceBronze: data["balanceBronze"].toDouble(),
+        balanceSilver: data["balanceSilver"].toDouble() ,
+        balanceGold: data["balanceGold"].toDouble(),
     );
   }
 
@@ -56,18 +64,24 @@ class UserModel extends User {
         province: data["province"],
         phone: data["phone"],
         location: data["location"],
-        authUserId: data["authUserId"]
+        authUserId: data["authUserId"],
+      balanceBronze: data["balanceBronze"] ,
+      balanceSilver: data["balanceSilver"] ,
+      balanceGold: data["balanceGold"] ,
     );
   }
 
   factory UserModel.defaultGuest() {
     return UserModel(
-        id: "id",
-        name: "guest",
-        guest: true,
-        signUpISODate: DateTime.now().toIso8601String(),
-        lastLoginEpoch: DateTime.now().millisecondsSinceEpoch,
-        verified: false,
+      id: "id",
+      name: "guest",
+      guest: true,
+      signUpISODate: DateTime.now().toIso8601String(),
+      lastLoginEpoch: DateTime.now().millisecondsSinceEpoch,
+      verified: false,
+      balanceBronze: 10,
+      balanceSilver: 0,
+      balanceGold: 0,
     );
   }
 
@@ -82,8 +96,10 @@ class UserModel extends User {
       "phone": phone,
       "province": province,
       "name": name,
-      "authUserId": authUserId
-
+      "authUserId": authUserId,
+      "balanceBronze": balanceBronze,
+      "balanceSilver": balanceSilver,
+      "balanceGold": balanceGold,
     });
   }
 
@@ -98,7 +114,10 @@ class UserModel extends User {
       "phone": phone,
       "province": province,
       "name": name,
-      "authUserId": authUserId
+      "authUserId": authUserId,
+      "balanceBronze": balanceBronze,
+      "balanceSilver": balanceSilver,
+      "balanceGold": balanceGold,
     };
   }
 
@@ -114,7 +133,10 @@ class UserModel extends User {
       "phone": phone,
       "province": province,
       "name": name,
-      "authUserId": authUserId
+      "authUserId": authUserId,
+      "balanceBronze": balanceBronze,
+      "balanceSilver": balanceSilver,
+      "balanceGold": balanceGold
     }.toString();
   }
 }

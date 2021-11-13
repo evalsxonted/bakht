@@ -15,10 +15,10 @@ class ThemeHandler{
     textTheme: TextTheme().apply(
       displayColor: Color(0xffe6e8f7),
       bodyColor: Color(0xffe6e8f7),
+
     ),
   );
   final lightTheme = ThemeData(
     fontFamily: "Cairo",
-
   );
 }

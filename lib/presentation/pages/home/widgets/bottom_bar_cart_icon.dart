@@ -36,7 +36,7 @@ class _AnimatedCartIconState extends State<AnimatedCartIcon>
   void initState() {
     super.initState();
     controller = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 1),
       vsync: this,
     );
     animationTopX = Tween<double>(
@@ -53,7 +53,7 @@ class _AnimatedCartIconState extends State<AnimatedCartIcon>
     );
     animationBottomY = Tween<double>(
       begin: 400,
-      end: 500,
+      end: 490,
     ).animate(
       CurvedAnimation(parent: controller, curve: Curves.linear),
     );

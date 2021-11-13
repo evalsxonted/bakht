@@ -33,7 +33,7 @@ class _AnimatedHomeIconState extends State<AnimatedHomeIcon>
   @override
   void initState() {
     controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 2));
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
     colorAnimation = ColorTween(
             begin: widget.startColor,
             end: widget.endColor,

@@ -87,7 +87,7 @@ class Start extends StatelessWidget {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     FirebaseAuth auth = FirebaseAuth.instance;
     UseCaseCaller useCaseCaller = UseCaseCaller(firebaseFirestore: firestore, firebaseAuth: auth);
-     Paint.enableDithering = true;
+    Paint.enableDithering = true;
 
     return await Future.wait([
       LanguageNotifier(useCaseCaller: useCaseCaller).initLanguage(),
