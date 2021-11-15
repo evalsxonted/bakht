@@ -73,10 +73,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                       child: Stack(
                         alignment: Alignment.bottomCenter,
                         children: [
-                          Hero(
-                            tag: "ProfilePhoto",
-                            child: ProfilePhoto(),
-                          ),
+                          ProfilePhoto(),
                           Positioned(
                             bottom: 0,
                             child: EditProfile(),

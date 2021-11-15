@@ -12,11 +12,25 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Hero(
-            tag: "ProfilePhoto",
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [
+              Theme.of(context).scaffoldBackgroundColor,
+              Theme.of(context).backgroundColor,
+            ],
+            tileMode: TileMode.repeated,
+            end: Alignment.bottomLeft,
+            begin: Alignment.topRight),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: Container(
+            width: 100,
+            height: 100,
             child: ProfilePhoto(),
+          ),
         ),
       ),
     );
