@@ -1,6 +1,6 @@
 import 'package:bakht/presentation/pages/start/start.dart';
 import 'package:flutter/material.dart';
-import 'presentation/widgets/buttons/icon_text_button.dart';
+import 'presentation/widgets/cards/icon_text_card.dart';
 
 void main()  {
   runApp(Start());
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(home: Scaffold(
       body: Center(
-        child: IconTextButton(
+        child: IconTextCard(
           width: 100,
           backgroundColor: Colors.teal,
           icon: Text("G", style: TextStyle(

@@ -1,11 +1,16 @@
 import 'package:bakht/presentation/animations/circular_reveal_animation.dart';
-import 'package:bakht/presentation/pages/profile/profile.dart';
 import 'package:flutter/material.dart';
 
-class HomeToProfileRoute {
-  final Duration transitionDuration = Duration(milliseconds: 1000);
-  final Widget page = Profile();
-  final GlobalKey widgetKey = LabeledGlobalKey("HomeToProfileRoute");
+class LaunchFromWidgetRoute {
+  final Duration transitionDuration;
+  final Widget page;
+  final GlobalKey widgetKey;
+
+  LaunchFromWidgetRoute({
+    required this.page,
+    required this.widgetKey,
+    this.transitionDuration = const Duration(milliseconds: 1000)
+  });
 
   Route call() {
     return PageRouteBuilder(

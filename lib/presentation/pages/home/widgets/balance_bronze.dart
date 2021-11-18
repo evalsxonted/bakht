@@ -1,7 +1,7 @@
 
 
 
-import 'package:bakht/presentation/widgets/buttons/icon_text_button.dart';
+import 'package:bakht/presentation/widgets/cards/icon_text_card.dart';
 import 'package:flutter/material.dart';
 
 class BalanceBronze extends StatelessWidget {
@@ -10,7 +10,7 @@ class BalanceBronze extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconTextButton(
+    return IconTextCard(
       width: 120,
       backgroundColor: Theme.of(context).cardColor,
       icon: Text("B", style: TextStyle(

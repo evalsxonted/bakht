@@ -14,6 +14,7 @@ import 'package:bakht/features/user/domain/usecases/auth_guest.dart';
 import 'package:bakht/features/user/domain/usecases/get_profile_photo.dart';
 import 'package:bakht/features/user/domain/usecases/get_user.dart';
 import 'package:bakht/features/user/domain/usecases/listen_user_auth.dart';
+import 'package:bakht/features/user/domain/usecases/save_profile_photo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,52 +30,55 @@ class UseCaseCaller{
   }
 
   GetUser getUser () {
-    return GetUser(userAbstraction: userImpl());
+    return GetUser(userAbstraction: _userImpl());
   }
-  UserAbstraction userImpl(){
+  UserAbstraction _userImpl(){
     return UserImpl(
-      networkInfo: networkInfo(),
-      userRemoteDatasource: userRemoteDatasource(),
-      userLocalDatasource: userLocalDatasource(),
+      networkInfo: _networkInfo(),
+      userRemoteDatasource: _userRemoteDatasource(),
+      userLocalDatasource: _userLocalDatasource(),
     );
   }
-  NetworkInfo networkInfo(){
-    return NetworkInfoImplementation(connectionChecker: connectionChecker());
+  NetworkInfo _networkInfo(){
+    return NetworkInfoImplementation(connectionChecker: _connectionChecker());
   }
-  Connectivity connectionChecker(){
+  Connectivity _connectionChecker(){
     return Connectivity();
   }
-  UserRemoteDatasource userRemoteDatasource(){
+  UserRemoteDatasource _userRemoteDatasource(){
     return UserRemoteDatasourceImpl(firebaseFirestore: firebaseFirestore);
   }
-  UserLocalDatasource userLocalDatasource(){
+  UserLocalDatasource _userLocalDatasource(){
     return UserLocalDatasourceImpl();
   }
   AuthGuest authGuest (){
-    return AuthGuest(authAbstraction: authAbstraction());
+    return AuthGuest(authAbstraction: _authAbstraction());
   }
-  AuthAbstraction authAbstraction(){
-    return AuthImpl(auth: firebaseAuth, networkInfo: networkInfo());
+  AuthAbstraction _authAbstraction(){
+    return AuthImpl(auth: firebaseAuth, networkInfo: _networkInfo());
   }
   AuthListen authListen(){
     return AuthListen(
-      authAbstraction: authAbstraction(),
+      authAbstraction: _authAbstraction(),
     );
   }
   GetTheme getTheme(){
-    return GetTheme(prefsAbstraction: prefsAbstraction());
+    return GetTheme(prefsAbstraction: _prefsAbstraction());
   }
   GetLanguage getLanguage (){
-    return GetLanguage(prefsAbstraction: prefsAbstraction());
+    return GetLanguage(prefsAbstraction: _prefsAbstraction());
   }
-  PrefsAbstraction prefsAbstraction (){
-    return PrefsImpl(prefsLocalDatasource: prefsLocalDatasource());
+  PrefsAbstraction _prefsAbstraction (){
+    return PrefsImpl(prefsLocalDatasource: _prefsLocalDatasource());
   }
-  PrefsLocalDatasource prefsLocalDatasource (){
+  PrefsLocalDatasource _prefsLocalDatasource (){
     return PrefsLocalDatasourceImpl();
   }
 
   GetProfilePhoto getProfilePhoto(){
-    return GetProfilePhoto(userAbstraction: userImpl());
+    return GetProfilePhoto(userAbstraction: _userImpl());
+  }
+  SaveProfilePhoto saveProfilePhoto(){
+    return SaveProfilePhoto(userAbstraction: _userImpl());
   }
 }

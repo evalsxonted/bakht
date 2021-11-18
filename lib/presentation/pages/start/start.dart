@@ -95,7 +95,7 @@ class Start extends StatelessWidget {
       UserNotifier().initUser(auth, useCaseCaller),
       Future.value(firestore),
       Future.value(auth),
-      Future.value(useCaseCaller),
+      // Future.value(useCaseCaller),
       //
       Future.delayed(Duration(seconds: 4)),
     ]);

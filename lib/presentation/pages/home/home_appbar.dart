@@ -1,3 +1,4 @@
+import 'package:bakht/presentation/pages/home/controllers/profile_photo_controller.dart';
 import 'package:bakht/presentation/pages/home/controllers/tabs_controller.dart';
 import 'package:bakht/presentation/pages/home/widgets/balance_gold.dart';
 import 'package:bakht/presentation/pages/home/widgets/balance_silver.dart';
@@ -20,6 +21,9 @@ class HomeAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _HomeAppBarState extends State<HomeAppBar> {
+
+  ProfilePhotoController profilePhotoController = ProfilePhotoController();
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<TabsController, UserNotifier>(
@@ -68,18 +72,23 @@ class _HomeAppBarState extends State<HomeAppBar> {
                 opacity: profileOpacity,
                 child: Row(
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          ProfilePhoto(),
-                          Positioned(
-                            bottom: 0,
-                            child: EditProfile(),
+                    ChangeNotifierProvider<ProfilePhotoController>(
+                      create: (context) => profilePhotoController,
+                      builder: (context, child) {
+                        return Align(
+                          alignment: Alignment.centerLeft,
+                          child: Stack(
+                            alignment: Alignment.bottomCenter,
+                            children: [
+                              ProfilePhoto(),
+                              Positioned(
+                                bottom: 0,
+                                child: EditProfile(),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                     Expanded(
                       child: Padding(
@@ -122,4 +131,10 @@ class _HomeAppBarState extends State<HomeAppBar> {
       },
     );
   }
+  @override
+  void dispose() {
+    profilePhotoController.manuallyDispose();
+    super.dispose();
+  }
+
 }

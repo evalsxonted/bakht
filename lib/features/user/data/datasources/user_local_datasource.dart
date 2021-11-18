@@ -13,8 +13,10 @@ abstract class UserLocalDatasource {
   Future<bool> addNewUser(UserModel user);
 
   Future<bool> updateUser(UserModel user);
+
   Future<File> getProfilePhoto();
-  Future<bool> setProfilePhoto(File file);
+
+  Future<bool> setProfilePhoto(String filePath);
 }
 
 class UserLocalDatasourceImpl implements UserLocalDatasource {
@@ -72,18 +74,33 @@ class UserLocalDatasourceImpl implements UserLocalDatasource {
 
   @override
   Future<File> getProfilePhoto() async {
-    File profilePhoto = File((await getTemporaryDirectory()).path + "/profile/profile.png");
-    if (await profilePhoto.exists()){
+    File profilePhoto =
+        File((await getTemporaryDirectory()).path + "/profile/profile.png");
+    if (await profilePhoto.exists()) {
       return profilePhoto;
-    }else {
+    } else {
       throw NotFoundException();
     }
   }
 
   @override
-  Future<bool> setProfilePhoto(File file) {
-    //file must be png
-    // TODO: implement setProfilePhoto
-    throw UnimplementedError();
+  Future<bool> setProfilePhoto(String filePath) async {
+    try {
+      File savedFile = await File(filePath)
+          .copy((await getTemporaryDirectory()).path + "/profile/profile.png");
+      if (await savedFile.exists()) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      throw UnknownException({
+        "type": "unknown",
+        "class": "UserLocalDatasourceImpl",
+        "function": "setProfilePhoto",
+        "date": DateTime.now().toIso8601String(),
+        "exception": e.toString()
+      }.toString());
+    }
   }
 }

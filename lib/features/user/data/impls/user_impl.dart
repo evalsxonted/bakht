@@ -12,6 +12,7 @@ import 'package:bakht/features/user/domain/entities/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fa;
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 class UserImpl implements UserAbstraction {
@@ -168,9 +169,24 @@ class UserImpl implements UserAbstraction {
   }
 
   @override
-  Future<Either<bool>> saveProfilePhoto(File file) {
-    //file must be png
-    // TODO: implement saveProfilePhoto
-    throw UnimplementedError();
+  Future<Either<bool>> saveProfilePhoto() async {
+    Either<bool> result = Either(null, null);
+    try {
+      final ImagePicker _picker = ImagePicker();
+      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if(image != null){
+            if(await userLocalDatasource.setProfilePhoto(image.path)){
+              result.right = true;
+            }else{
+              result.right = false;
+            }
+          }else{
+            result.right = false;
+          }
+    } catch (e) {
+      result.left = Failure("error in setting profile photo,"
+          " if this error keeps showing please contact the app developer, error code 19", e.toString());
+    }
+    return result;
   }
 }

@@ -10,6 +10,6 @@ abstract class UserAbstraction{
   Future<Either<User>> addNewGuestUser(fa.User faUser);
   Future<Either<bool>> updateUser(User user);
   Future<Either<File>> getProfilePhoto();
-  Future<Either<bool>> saveProfilePhoto(File file);
+  Future<Either<bool>> saveProfilePhoto();
 
 }
