@@ -1,6 +1,7 @@
 # bakht
 
-lucky games app
+lucky games app, 
+this branch is deprecated
 
 ## Getting Started
 this project focus on animated widgets, created mainly with canvas 
