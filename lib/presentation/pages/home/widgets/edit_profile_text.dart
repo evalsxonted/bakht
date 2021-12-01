@@ -1,10 +1,9 @@
 import 'package:bakht/presentation/pages/home/controllers/profile_photo_controller.dart';
 import 'package:bakht/presentation/pages/profile/profile.dart';
-import 'package:bakht/presentation/routes/launch_from_widget_route.dart';
 import 'package:bakht/presentation/widgets/clickables/clickable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:widget_route/widget_route.dart';
 
 class EditProfile extends StatelessWidget {
   final widgetKey = LabeledGlobalKey("edit profile");

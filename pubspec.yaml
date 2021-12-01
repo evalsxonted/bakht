@@ -18,6 +18,9 @@ dependencies:
   path_provider: ^2.0.5
   firebase_auth: ^3.1.4
   image_picker: ^0.8.4+4
+  widget_route:
+    path: packages/widget_route
+
 
   cupertino_icons: ^1.0.2
 
